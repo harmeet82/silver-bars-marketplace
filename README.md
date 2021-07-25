@@ -1,6 +1,16 @@
 # silver-bars-marketplace
 silver-bars-marketplace
 
+Important Links
+http://localhost:8080/h2/
+http://localhost:808O/actuator/health
+http://localhost:8080/swagger-ui.html
+http://localhost:8080/order/register
+http://localhost:8080/order/cancel/5
+http://localhost:8080/order/summary
+http://localhost:8080/order/summary/2021-07-25/
+
+Use Case:
 Imagine you're working as a programmer for a company called Silver Bars Marketplace and you have just
 received a new requirement. In it we would like to display to our users how much demand for silver bars
 there is on the market.
