@@ -6,7 +6,7 @@
             </Pattern>
         </layout>
     </appender>
-    <logger name="com.cgi.silverbarmarketplace" level="debug" additivity="false">
+    <logger name="com.cgi.silver.bars.marketplace" level="debug" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
     <root level="error">

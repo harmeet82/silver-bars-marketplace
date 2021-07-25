@@ -32,11 +32,9 @@ public final class MarketOrder {
     private String type;
     @Column(name = "order_status")
     private String orderStatus;
-
     @Column(name = "created_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdOn = LocalDate.now();
-
     @Column(name = "created_by")
     private String createdBy = "System";
     @Column(name = "updated_date")

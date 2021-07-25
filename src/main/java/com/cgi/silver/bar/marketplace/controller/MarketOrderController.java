@@ -31,11 +31,10 @@ public class MarketOrderController {
         return new ResponseEntity<>(orderSummary, HttpStatus.OK);
     }
 
+    //Here we can add date validation as well
     @ApiOperation(value = "View a list of all orders for a given date in format(yyyy-MM-dd)", response = Iterable.class)
-
     @GetMapping("/summary/{date}")
     public ResponseEntity<List<MarketOrder>> getOrderSummaryByDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-
         log.info(" in controller  getOrderSummaryByDate >>  " + date);
         List<MarketOrder> orderSummary = marketOrderService.getAllOrdersByDate(date);
         if (orderSummary != null & !orderSummary.isEmpty()) {
@@ -45,12 +44,11 @@ public class MarketOrderController {
         }
 
     }
-
+//Here we can add validations as well that added data should be correct
     @ApiOperation(value = "To register a new order", response = Iterable.class)
     @PostMapping("/register")
     public ResponseEntity<MarketOrder> registerOrder(@RequestBody MarketOrder orderDetails) {
         log.info(" in controller >>  " + orderDetails.toString());
-
         MarketOrder order = marketOrderService.registerOrder(orderDetails);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
@@ -68,6 +66,5 @@ public class MarketOrderController {
             return new ResponseEntity<>("Order Not Found for Id " + id, HttpStatus.NOT_FOUND);
         }
     }
-
 
 }
