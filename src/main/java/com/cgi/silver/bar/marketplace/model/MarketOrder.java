@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -27,7 +28,7 @@ public final class MarketOrder {
     @Column(name = "quantity")
     private Double quantity;
     @Column(name = "pricePerKg")
-    private Double pricePerKg;
+    private BigDecimal pricePerKg;
     @Column(name = "order_Type")
     private String type;
     @Column(name = "order_status")
@@ -42,7 +43,7 @@ public final class MarketOrder {
     @Column(name = "updated_By")
     private String updatedBy;
 
-    public MarketOrder(Double quantity, String type, Double pricePerKg) {
+    public MarketOrder(Double quantity, String type, BigDecimal pricePerKg) {
         this.quantity = quantity;
         this.pricePerKg = pricePerKg;
         this.type = type;

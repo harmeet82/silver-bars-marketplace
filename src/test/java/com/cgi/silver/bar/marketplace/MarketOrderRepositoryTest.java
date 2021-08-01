@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
@@ -31,7 +32,7 @@ public class MarketOrderRepositoryTest {
 
     @Test
     void testMarketOrderRepository() throws ParseException {
-        MarketOrder marketOrder = new MarketOrder(2000d, BUY, 20d);
+        MarketOrder marketOrder = new MarketOrder(2000d, BUY,new BigDecimal("200"));
         marketOrder.setOrderStatus(ACTIVE);
 
         marketOrder = marketOrderRepository.save(marketOrder);
@@ -39,7 +40,7 @@ public class MarketOrderRepositoryTest {
         assertThat(marketOrders).isNotEmpty();
         assertThat(marketOrders.get(0).getQuantity()).isEqualTo(2000d);
 
-        MarketOrder todayMarketOrder = new MarketOrder(305d, BUY, 30d);
+        MarketOrder todayMarketOrder = new MarketOrder(305d, BUY, new BigDecimal("300"));
         todayMarketOrder.setOrderStatus(ACTIVE);
         todayMarketOrder.setCreatedOn(LocalDate.now());
          marketOrderRepository.save(todayMarketOrder);

@@ -16,7 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.math.BigDecimal;
 
 import static com.cgi.silver.bar.marketplace.service.MarketOrderService.BUY;
 import static com.cgi.silver.bar.marketplace.service.MarketOrderService.SELL;
@@ -62,34 +65,34 @@ public class MarketOrderControllerTest {
     @Test
     public void testRegisterOrder() throws Exception {
         ObjectMapper objectMapper = mapperBuilder.build();
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(200d, SELL, 20d)))
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
+                .content(objectMapper.writeValueAsString(new MarketOrder(200d, SELL,new BigDecimal("20"))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(100d, SELL, 20d)))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(1000d, BUY, 100d)))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(3000d, BUY, 100d)))
+                .content(objectMapper.writeValueAsString(new MarketOrder(100d, SELL, new BigDecimal("20"))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(2000d, BUY, 20d)))
+                .content(objectMapper.writeValueAsString(new MarketOrder(1000d, BUY, new BigDecimal("100"))))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
+                .content(objectMapper.writeValueAsString(new MarketOrder(3000d, BUY, new BigDecimal("100"))))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
+                .content(objectMapper.writeValueAsString(new MarketOrder(2000d, BUY, new BigDecimal("20"))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
@@ -108,7 +111,7 @@ public class MarketOrderControllerTest {
     public void testOrderCancellation() throws Exception {
         ObjectMapper objectMapper = mapperBuilder.build();
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(1000d, BUY, 100d)))
+                .content(objectMapper.writeValueAsString(new MarketOrder(1000d, BUY, new BigDecimal("100"))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated()).andReturn();
@@ -121,7 +124,7 @@ public class MarketOrderControllerTest {
                 .andExpect(status().isOk()).andReturn();
 
         mockMvc.perform(MockMvcRequestBuilders.post("/order/register")
-                .content(objectMapper.writeValueAsString(new MarketOrder(2000d, BUY, 100d)))
+                .content(objectMapper.writeValueAsString(new MarketOrder(2000d, BUY, new BigDecimal("100"))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());

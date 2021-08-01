@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,19 +56,19 @@ public class MarketOrderService {
         List<MarketOrder> orderStatusSellList = activeOrderList.stream().filter(order -> SELL.equalsIgnoreCase(order.getType())).collect(Collectors.toList());
         List<MarketOrder> orderStatusBuyList = activeOrderList.stream().filter(order -> BUY.equalsIgnoreCase(order.getType())).collect(Collectors.toList());
 
-        Map<String, Map<Double, Double>> groupSellOrderByPrice = orderStatusSellList
-                .stream().sorted(Comparator.comparingDouble(MarketOrder::getPricePerKg))
+        Map<String, Map<BigDecimal, Double>> groupSellOrderByPrice = orderStatusSellList
+                .stream().sorted(Comparator.comparing(MarketOrder::getPricePerKg))
                 .collect(Collectors.groupingBy(MarketOrder::getType, Collectors.groupingBy(MarketOrder::getPricePerKg, Collectors.summingDouble(MarketOrder::getQuantity))));
 
         if (groupSellOrderByPrice.containsKey(SELL)) {
             orderSummary.setSellOrder(new TreeMap(groupSellOrderByPrice.get(SELL)));
         }
 
-        Map<String, Map<Double, Double>> groupBuyOrderByPrice = orderStatusBuyList
+        Map<String, Map<BigDecimal, Double>> groupBuyOrderByPrice = orderStatusBuyList
                 .stream()
                 .collect(Collectors.groupingBy(MarketOrder::getType, Collectors.groupingBy(MarketOrder::getPricePerKg, Collectors.summingDouble(MarketOrder::getQuantity))));
         if (groupBuyOrderByPrice.containsKey(BUY)) {
-            Map<Double, Double> sortedBuyMap = new TreeMap(Collections.reverseOrder());
+            Map<BigDecimal, Double> sortedBuyMap = new TreeMap(Collections.reverseOrder());
             sortedBuyMap.putAll(groupBuyOrderByPrice.get(BUY));
             orderSummary.setBuyOrder(sortedBuyMap);
         }
